@@ -4,19 +4,34 @@
 
 char *strcpy(char *destination, const char *source)
 {
-	/* TODO: Implement strcpy(). */
-	return destination;
+	char *original = destination;
+	while (*source != '\0')
+	{
+		*destination = *source;
+		destination++;
+		source++;
+	}
+	*destination = '\0';
+	return original;
 }
 
 char *strncpy(char *destination, const char *source, size_t len)
 {
-	/* TODO: Implement strncpy(). */
-	return destination;
+	char *original = destination;
+	size_t i = 0;
+	while (*source != '\0' && i < len)
+	{
+		*destination = *source;
+		destination++;
+		source++;
+		i++;
+	}
+	*destination = '\0';
+	return original;
 }
 
 char *strcat(char *destination, const char *source)
 {
-	/* TODO: Implement strcat(). */
 	return destination;
 }
 
