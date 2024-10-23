@@ -6,6 +6,8 @@
 
 off_t lseek(int fd, off_t offset, int whence)
 {
-	/* TODO: Implement lseek(). */
-	return -1;
+	off_t pos = syscall(8, fd, offset, whence);
+	if (pos < 0)
+		return -1;
+	return pos;
 }

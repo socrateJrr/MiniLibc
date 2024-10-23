@@ -5,8 +5,10 @@
 #include <stdarg.h>
 #include <errno.h>
 
-int open(const char *filename, int flags, ...)
+int open(const char *filename, int flags, mode_t mode)
 {
-	/* TODO: Implement open system call. */
-	return -1;
+	int fd = syscall(2, filename, flags, mode);
+	if (fd < 0)
+		return -1;
+	return fd;
 }

@@ -6,6 +6,7 @@
 
 int truncate(const char *path, off_t length)
 {
-	/* TODO: Implement truncate(). */
-	return -1;
+	if (syscall(76, path, length) < 0)
+		return -1;
+	return 0;
 }
