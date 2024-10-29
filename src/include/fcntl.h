@@ -1,43 +1,44 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-#ifndef	_FCNTL_H
-#define	_FCNTL_H	1
+#ifndef _FCNTL_H
+#define _FCNTL_H 1
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include <internal/types.h>
 
-#define O_ACCMODE		0003
-#define O_RDONLY		00
-#define O_WRONLY		01
-#define O_RDWR			02
-#define FD_CLOEXEC		1
+#define O_ACCMODE 0003
+#define O_RDONLY 00
+#define O_WRONLY 01
+#define O_RDWR 02
+#define FD_CLOEXEC 1
 
 #ifndef O_CREAT
-# define O_CREAT		0100	/* Not fcntl.  */
+#define O_CREAT 0100 /* Not fcntl.  */
 #endif
 #ifndef O_EXCL
-# define O_EXCL			0200	/* Not fcntl.  */
+#define O_EXCL 0200 /* Not fcntl.  */
 #endif
 #ifndef O_NOCTTY
-# define O_NOCTTY		0400	/* Not fcntl.  */
+#define O_NOCTTY 0400 /* Not fcntl.  */
 #endif
 #ifndef O_TRUNC
-# define O_TRUNC		01000	/* Not fcntl.  */
+#define O_TRUNC 01000 /* Not fcntl.  */
 #endif
 #ifndef O_APPEND
-# define O_APPEND		02000
+#define O_APPEND 02000
 #endif
 #ifndef O_DIRECTORY
-# define O_DIRECTORY	0200000
+#define O_DIRECTORY 0200000
 #endif
 #ifndef O_TMPFILE
-# define O_TMPFILE		(020000000 | O_DIRECTORY)
+#define O_TMPFILE (020000000 | O_DIRECTORY)
 #endif
 #ifndef O_CLOEXEC
-# define O_CLOEXEC		02000000
+#define O_CLOEXEC 02000000
 #endif
 
 #ifndef S_IRUSR
@@ -58,15 +59,15 @@ extern "C" {
 #define S_IRWXO 0007
 #endif
 
-#define F_DUPFD		0	/* Duplicate file descriptor.  */
-#define F_GETFD		1	/* Get file descriptor flags.  */
-#define F_SETFD		2	/* Set file descriptor flags.  */
-#define F_GETFL		3	/* Get file status flags.  */
-#define F_SETFL		4	/* Set file status flags.  */
+#define F_DUPFD 0 /* Duplicate file descriptor.  */
+#define F_GETFD 1 /* Get file descriptor flags.  */
+#define F_SETFD 2 /* Set file descriptor flags.  */
+#define F_GETFL 3 /* Get file status flags.  */
+#define F_SETFL 4 /* Set file status flags.  */
 
-#define AT_FDCWD	-100	/* Special value used to indicate openat should use the current working directory. */
+#define AT_FDCWD -100 /* Special value used to indicate openat should use the current working directory. */
 
-int open(const char *filename, int flags, ...);
+    int open(const char *filename, int flags, mode_t mode);
 
 #ifdef __cplusplus
 }

@@ -7,6 +7,7 @@
 
 int stat(const char *restrict path, struct stat *restrict buf)
 {
-	/* TODO: Implement stat(). */
-	return -1;
+	if (syscall(4, path, buf) < 0)
+		return -1;
+	return 0;
 }
