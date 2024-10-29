@@ -20,7 +20,7 @@ unsigned int sleep(unsigned int seconds)
 int nanosleep(const struct timespec *t1, struct timespec *t2)
 {
     int apel;
-    apel = syscall(230, t1, t2);
+    apel = syscall(35, t1, t2);
     if (apel == -1 && errno == EINTR && t2)
         *t2 = *t1;
     return apel;
