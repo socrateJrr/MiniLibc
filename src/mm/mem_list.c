@@ -90,8 +90,9 @@ void mem_list_cleanup(void)
 	struct mem_list *iter, *tmp;
 
 	for (iter = mem_list_head.next, tmp = iter->next;
-			iter != &mem_list_head;
-			iter = tmp, tmp = iter->next) {
+		 iter != &mem_list_head;
+		 iter = tmp, tmp = iter->next)
+	{
 		/* Extract item from doubly-linked list. */
 		iter->next->prev = iter->prev;
 		iter->prev->next = iter->next;

@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <errno.h>
 
-extern struct mem_list mem_list_head = {NULL, 0, NULL, NULL};
+extern struct mem_list mem_list_head; // = {NULL, 0, NULL, NULL};
 
 void *malloc(size_t size)
 {
@@ -22,9 +22,9 @@ void *malloc(size_t size)
 	{
 		if (aux->len >= size)
 		{
-			aux->len = aux->len - size;
+			// aux->len = aux->len - size;
 			void *ptr = aux->start;
-			aux->start = NULL;
+			// aux->start = (char *)aux->start + size;
 			return ptr;
 		}
 		aux = aux->next;
