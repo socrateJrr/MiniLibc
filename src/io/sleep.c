@@ -4,6 +4,7 @@
 #include <internal/syscall.h>
 #include <internal/types.h>
 #include <errno.h>
+
 unsigned int sleep(unsigned int seconds)
 {
     struct timespec wish, tic;
@@ -19,6 +20,7 @@ unsigned int sleep(unsigned int seconds)
     }
     return 0;
 }
+
 int nanosleep(const struct timespec *t1, struct timespec *t2)
 {
     int apel;

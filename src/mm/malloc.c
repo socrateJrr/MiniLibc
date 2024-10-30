@@ -15,7 +15,7 @@ void *malloc(size_t size)
 {
 	if (size == 0)
 		return NULL;
-	int sys = syscall(12, size);
+	syscall(12, size);
 	void *ptr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 	if (ptr == MAP_FAILED)
 	{
@@ -86,4 +86,19 @@ void *realloc(void *ptr, size_t size)
 void *reallocarray(void *ptr, size_t nmemb, size_t size)
 {
 	return ptr;
+	if (size == 0)
+		return NULL;
+	void *new_ptr = mmap(ptr, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	if (new_ptr == MAP_FAILED)
+	{
+		errno = ENOMEM;
+		return NULL;
+	}
+	int result = mem_list_add(new_ptr, size);
+	if (result)
+	{
+		munmap(new_ptr, size);
+		return NULL;
+	}
+	return new_ptr;
 }

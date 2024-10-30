@@ -4,6 +4,7 @@
 #include <internal/syscall.h>
 #include <internal/types.h>
 #include <string.h>
+
 int puts(const char *str)
 {
     int nr = strlen(str);

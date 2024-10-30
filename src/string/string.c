@@ -142,9 +142,9 @@ size_t strlen(const char *str)
 	return i;
 }
 
-char *strchr(const char *str, int c)
+const char *strchr(const char *str, int c)
 {
-	char *adr;
+	const char *adr;
 	int ok = 0;
 	while (*str != '\0' && ok == 0)
 	{
@@ -161,9 +161,9 @@ char *strchr(const char *str, int c)
 		return NULL;
 }
 
-char *strrchr(const char *str, int c)
+const char *strrchr(const char *str, int c)
 {
-	char *adr;
+	const char *adr;
 	int ok = 0;
 	while (*str != '\0')
 	{
@@ -177,12 +177,12 @@ char *strrchr(const char *str, int c)
 		return NULL;
 }
 
-char *strstr(const char *haystack, const char *needle)
+const char *strstr(const char *haystack, const char *needle)
 {
 	while (*haystack != '\0')
 	{
-		char *adr_hay = haystack;
-		char *adr_need = needle;
+		const char *adr_hay = haystack;
+		const char *adr_need = needle;
 		while (*adr_hay == *adr_need && *adr_hay != '\0' && *adr_need != '\0')
 		{
 			adr_hay++;
@@ -195,7 +195,7 @@ char *strstr(const char *haystack, const char *needle)
 	return NULL;
 }
 
-char *strrstr(const char *haystack, const char *needle)
+char *strrstr(char *haystack, char *needle)
 {
 	char *adr;
 	int ok = 0;
@@ -222,7 +222,7 @@ void *memcpy(void *destination, const void *source, size_t num)
 {
 	size_t i = 0;
 	char *dest = destination;
-	char *src = source;
+	const char *src = source;
 	while (i < num)
 	{
 		dest[i] = src[i];
@@ -231,11 +231,11 @@ void *memcpy(void *destination, const void *source, size_t num)
 	return destination;
 }
 
-void *memmove(void *destination, const void *source, size_t num)
+void *memmove(void *destination, const void *source, int num)
 {
 	int i = 0;
 	char *dest = destination;
-	char *src = source;
+	const char *src = source;
 	if (dest < src || dest > (src + num))
 	{
 		while (i < num)
@@ -257,8 +257,8 @@ void *memmove(void *destination, const void *source, size_t num)
 int memcmp(const void *ptr1, const void *ptr2, size_t num)
 {
 	size_t i = 0;
-	char *alt_ptr1 = ptr1;
-	char *alt_ptr2 = ptr2;
+	const char *alt_ptr1 = ptr1;
+	const char *alt_ptr2 = ptr2;
 	while (i < num)
 	{
 		if (alt_ptr1[i] < alt_ptr2[i])
