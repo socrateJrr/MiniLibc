@@ -6,7 +6,11 @@
 
 int truncate(const char *path, off_t length)
 {
-	if (syscall(76, path, length) < 0)
+	int apel = syscall(76, path, length);
+	if (apel < 0)
+	{
+		errno = -apel;
 		return -1;
+	}
 	return 0;
 }

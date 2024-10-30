@@ -3,6 +3,7 @@
 #include <internal/io.h>
 #include <internal/syscall.h>
 #include <internal/types.h>
+#include <string.h>
 int puts(const char *str)
 {
     size_t nr = strlen(str);

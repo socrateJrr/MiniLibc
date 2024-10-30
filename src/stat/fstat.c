@@ -6,7 +6,12 @@
 
 int fstat(int fd, struct stat *st)
 {
-	if (syscall(5, fd, st) < 0)
+	int apel = syscall(5, fd, st);
+	if (apel < 0)
+	{
+		errno = -apel;
 		return -1;
+	}
+
 	return 0;
 }

@@ -67,7 +67,7 @@ extern "C"
 
 #define AT_FDCWD -100 /* Special value used to indicate openat should use the current working directory. */
 
-    int open(const char *filename, int flags, mode_t mode);
+    int open(const char *filename, int flags, ...);
 
 #ifdef __cplusplus
 }

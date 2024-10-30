@@ -7,7 +7,12 @@
 
 int stat(const char *restrict path, struct stat *restrict buf)
 {
-	if (syscall(4, path, buf) < 0)
+	int apel = syscall(4, path, buf);
+	if (apel < 0)
+	{
+		errno = -apel;
 		return -1;
+	}
+
 	return 0;
 }

@@ -226,7 +226,7 @@ void *memcpy(void *destination, const void *source, size_t num)
 
 void *memmove(void *destination, const void *source, size_t num)
 {
-	size_t i = 0;
+	int i = 0;
 	char *dest = destination;
 	char *src = source;
 	if (dest < src || dest > (src + num))

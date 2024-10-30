@@ -8,61 +8,85 @@
 #include <stdlib.h>
 #include <errno.h>
 
-extern struct mem_list mem_list_head; // = {NULL, 0, NULL, NULL};
+extern struct mem_list mem_list_head;
 
 void *malloc(size_t size)
 {
 	if (size == 0)
-	{
-		errno = EINVAL;
 		return NULL;
-	}
-	struct mem_list *aux;
-	while (aux)
-	{
-		if (aux->len >= size)
-		{
-			// aux->len = aux->len - size;
-			void *ptr = aux->start;
-			// aux->start = (char *)aux->start + size;
-			return ptr;
-		}
-		aux = aux->next;
-	}
-	void *new = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-	if (new == MAP_FAILED)
+	void *ptr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	if (ptr == MAP_FAILED)
 	{
 		errno = ENOMEM;
 		return NULL;
 	}
-	if (mem_list_add(new, size) == -1)
-	{
-		munmap(new, size);
-		errno = ENOMEM;
-		return NULL;
-	}
-	return new;
+	return ptr;
 }
+
 void *calloc(size_t nmemb, size_t size)
 {
-
-	return NULL;
+	/*if (nmemb == 0 || size == 0)
+		return NULL;
+	size_t total = nmemb * size;
+	void *ptr = mmap(NULL, total, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	if (ptr == MAP_FAILED)
+	{
+		errno = ENOMEM;
+		return NULL;
+	}
+	memset(ptr, 0, total);
+	return ptr;*/
 }
 void free(void *ptr)
 {
 	if (ptr == NULL)
 		return;
-	struct mem_list *new = mem_list_find(ptr);
-	if (new)
+	struct mem_list *block = mem_list_find(ptr);
+	if (block != NULL)
 	{
-		munmap(ptr, new->len);
 		mem_list_del(ptr);
+		munmap(ptr, block->len);
 	}
 }
 
 void *realloc(void *ptr, size_t size)
 {
+	/*if (size == 0)
+	{
+		free(ptr);
+		return NULL;
+	}
 
+	if (ptr == NULL)
+		return malloc(size);
+
+	struct mem_list *block = mem_list_find(ptr);
+	if (block == NULL)
+		return NULL;
+
+	size_t old_size = block->len;
+	if (size <= old_size)
+		return ptr;
+
+	void *new_ptr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	if (new_ptr == MAP_FAILED)
+	{
+		errno = ENOMEM;
+		return NULL;
+	}
+
+	memcpy(new_ptr, ptr, old_size);
+
+	mem_list_del(ptr);
+	munmap(ptr, old_size);
+
+	if (mem_list_add(new_ptr, size) != 0)
+	{
+		munmap(new_ptr, size);
+		return NULL;
+	}
+	return new_ptr;*/
+	
 	return NULL;
 }
 

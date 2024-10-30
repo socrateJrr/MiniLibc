@@ -6,7 +6,11 @@
 
 int ftruncate(int fd, off_t length)
 {
-	if (syscall(77, fd, length) < 0)
+	int apel = syscall(77, fd, length);
+	if (apel < 0)
+	{
+		errno = -apel;
 		return -1;
+	}
 	return 0;
 }
