@@ -10,7 +10,6 @@ SRCS = $(wildcard *.c)
 OBJS = $(patsubst %.c,%.o,$(SRCS))
 EXECS = $(patsubst %.c,%,$(SRCS))
 
-
 .PHONY: all clean src
 
 all: $(EXECS)

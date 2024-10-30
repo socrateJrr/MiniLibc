@@ -5,7 +5,7 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#define READ_ONLY_FILE	"./read_only_file"
+#define READ_ONLY_FILE "./read_only_file"
 
 /*
  * Call open on read-only file with access mode = write.
