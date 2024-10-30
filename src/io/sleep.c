@@ -8,12 +8,14 @@ unsigned int sleep(unsigned int seconds)
 {
     struct timespec wish, tic;
     wish.tv_sec = seconds;
-    tic.tv_nsec = 0;
-    while (syscall(35, &wish, &tic) == -1)
+    wish.tv_nsec = 0;
+
+    while (nanosleep(&wish, &tic) == -1)
     {
-        if (errno != EINTR)
+        if (errno == EINTR)
+            wish = tic;
+        else
             return -1;
-        tic = wish;
     }
     return 0;
 }

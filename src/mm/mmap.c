@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 #include <internal/mm/mem_list.h>
 #include <internal/types.h>
+#include <internal/syscall.h>
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <unistd.h>

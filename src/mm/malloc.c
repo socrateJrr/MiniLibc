@@ -2,6 +2,7 @@
 
 #include <internal/mm/mem_list.h>
 #include <internal/types.h>
+#include <internal/syscall.h>
 #include <internal/essentials.h>
 #include <sys/mman.h>
 #include <string.h>
@@ -14,10 +15,17 @@ void *malloc(size_t size)
 {
 	if (size == 0)
 		return NULL;
+	int sys = syscall(12, size);
 	void *ptr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 	if (ptr == MAP_FAILED)
 	{
 		errno = ENOMEM;
+		return NULL;
+	}
+	int result = mem_list_add(ptr, size);
+	if (result)
+	{
+		munmap(ptr, size);
 		return NULL;
 	}
 	return ptr;
@@ -25,7 +33,7 @@ void *malloc(size_t size)
 
 void *calloc(size_t nmemb, size_t size)
 {
-	/*if (nmemb == 0 || size == 0)
+	if (nmemb == 0 || size == 0)
 		return NULL;
 	size_t total = nmemb * size;
 	void *ptr = mmap(NULL, total, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
@@ -35,7 +43,13 @@ void *calloc(size_t nmemb, size_t size)
 		return NULL;
 	}
 	memset(ptr, 0, total);
-	return ptr;*/
+	int result = mem_list_add(ptr, size);
+	if (result)
+	{
+		munmap(ptr, size);
+		return NULL;
+	}
+	return ptr;
 }
 void free(void *ptr)
 {
@@ -51,47 +65,25 @@ void free(void *ptr)
 
 void *realloc(void *ptr, size_t size)
 {
-	/*if (size == 0)
-	{
-		free(ptr);
+	// return ptr;
+	if (size == 0)
 		return NULL;
-	}
-
-	if (ptr == NULL)
-		return malloc(size);
-
-	struct mem_list *block = mem_list_find(ptr);
-	if (block == NULL)
-		return NULL;
-
-	size_t old_size = block->len;
-	if (size <= old_size)
-		return ptr;
-
-	void *new_ptr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	void *new_ptr = mmap(ptr, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 	if (new_ptr == MAP_FAILED)
 	{
 		errno = ENOMEM;
 		return NULL;
 	}
-
-	memcpy(new_ptr, ptr, old_size);
-
-	mem_list_del(ptr);
-	munmap(ptr, old_size);
-
-	if (mem_list_add(new_ptr, size) != 0)
+	int result = mem_list_add(new_ptr, size);
+	if (result)
 	{
 		munmap(new_ptr, size);
 		return NULL;
 	}
-	return new_ptr;*/
-	
-	return NULL;
+	return new_ptr;
 }
 
 void *reallocarray(void *ptr, size_t nmemb, size_t size)
 {
-
-	return NULL;
+	return ptr;
 }
